@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 
+using ACE.Common;
 using ACE.Entity.Enum;
 using ACE.Server.Network;
 
@@ -48,10 +49,12 @@ namespace ACE.Server.Command
                 }
             }
 
-            var thread = new Thread(new ThreadStart(CommandThread));
-            thread.Name = "Command Manager";
-            thread.IsBackground = true;
-            thread.Start();
+            if (ConfigManager.Config.Server.EnableInteractiveConsole) {
+                var thread = new Thread(new ThreadStart(CommandThread));
+                thread.Name = "Command Manager";
+                thread.IsBackground = true;
+                thread.Start();
+            }
         }
 
         private static void CommandThread()
